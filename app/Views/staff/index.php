@@ -1,0 +1,7 @@
+<div class="page-heading"><div><h1>Staff</h1><p class="muted">Manage staff accounts and login credentials.</p></div><a class="btn primary" href="<?= site_url('staff/create') ?>">＋ Add staff</a></div>
+<section class="panel">
+<?php if (empty($staff)): ?><p class="empty-state">No staff accounts found.</p><?php else: ?>
+<div class="table-wrap"><table><thead><tr><th>Avatar</th><th>Full name</th><th>Username</th><th>Created</th><th>Actions</th></tr></thead><tbody>
+<?php foreach ($staff as $member): ?><tr><td><?php if ($member['avatar']): ?><img class="avatar" src="<?= base_url('uploads/avatars/' . rawurlencode($member['avatar'])) ?>" alt="Avatar"><?php else: ?><span class="avatar-placeholder"><?= esc(strtoupper(substr($member['full_name'], 0, 1))) ?></span><?php endif; ?></td><td><strong><?= esc($member['full_name']) ?></strong><?= (int)$member['id'] === (int)session()->get('user_id') ? ' <span class="pill normal">You</span>' : '' ?></td><td><?= esc($member['username']) ?></td><td><?= esc($member['created_at']) ?></td><td class="actions"><a class="btn small" href="<?= site_url('staff/edit/' . $member['id']) ?>">Edit</a><form method="post" action="<?= site_url('staff/delete/' . $member['id']) ?>" onsubmit="return confirm('Delete this staff account?')"><?= csrf_field() ?><button class="btn small danger" type="submit">Delete</button></form></td></tr><?php endforeach; ?>
+</tbody></table></div><?php endif; ?>
+</section>
